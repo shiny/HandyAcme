@@ -1,0 +1,25 @@
+{
+    "include": [
+        "**/*",
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ],
+    "compilerOptions": {
+        "target": "ES6",
+        "outDir": "dist",
+        "rootDir": "./src",
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "moduleResolution": "Node",
+        "allowSyntheticDefaultImports": true,
+        "lib": [
+            "DOM"
+        ],
+        "types": [
+            "node",
+            "jest"
+        ]
+    }
+}

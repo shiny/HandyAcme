@@ -1,0 +1,14 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "lib": [ "ESNext", "DOM"]
+    },
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+    "env": {
+        "node": true
+    },
+    "rules": {
+        // it will cause incorrect error in typescript
+        "no-unused-vars": "off"
+    }
+}
