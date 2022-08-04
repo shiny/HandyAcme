@@ -3,6 +3,7 @@ import Directory from "./Directory"
 import AuthenticatedRequest from "./AuthenticatedRequest"
 import Order from "./Order"
 import Challenge from "./Challenge"
+import Authorization from "./Authorization"
 
 interface ImportAccountOptions {
     email: string
@@ -73,6 +74,10 @@ export class Ca {
 
     async restoreOrder(orderUrl) {
         return Order.restore(this, orderUrl)
+    }
+
+    async restoreAuthorization(authorizationUrl) {
+        return Authorization.create(this, authorizationUrl)
     }
 
     async restoreChallenge(challengeUrl) {

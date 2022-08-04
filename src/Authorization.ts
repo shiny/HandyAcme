@@ -21,6 +21,35 @@ export default class Authorization {
 
     constructor(public ca, public url) {}
 
+    get isPending() {
+        return this.status === "pending"
+    }
+
+    get isProcessing() {
+        return this.status === "processing"
+    }
+
+    get isValid() {
+        return this.status === "valid"
+    }
+
+    get isInvalid() {
+        return this.status === "invalid"
+    }
+    get isDeactivated() {
+        return this.status === "deactivated"
+    }
+    get isExpired() {
+        return this.status === "expired"
+    }
+    get isRevoked() {
+        return this.status === "revoked"
+    }
+
+    get status() {
+        return this.data.status
+    }
+
     static async create(ca: Ca, url: string) {
         const auth = new Authorization(ca, url)
         await auth.load()
