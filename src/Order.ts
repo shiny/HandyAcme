@@ -1,4 +1,3 @@
-import { Certificate } from "crypto"
 import Authorization from "./Authorization"
 import { Ca } from "./Ca"
 import { createEcdsaCsr, createRsaCsr } from "./Csr"
@@ -20,7 +19,7 @@ export interface ResponseOrder {
 }
 
 export function isResponseOrderIdentifier(obj): obj is ResponseOrderIdentifier {
-    return isString([obj.type, obj.value])
+    return isString([obj.type, obj.value]) && obj.type === "dns"
 }
 
 export function isResponseOrder(obj): obj is ResponseOrder {
@@ -37,7 +36,7 @@ export function isResponseOrder(obj): obj is ResponseOrder {
         ]) &&
         isString(obj.authorizations) &&
         isString(obj.finalize) &&
-        isOptionalString(Certificate) &&
+        isOptionalString(obj.certificate) &&
         Array.isArray(obj.identifiers) &&
         obj.identifiers.every(isResponseOrderIdentifier)
     )
