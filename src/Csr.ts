@@ -1,5 +1,6 @@
 import * as x509 from "@peculiar/x509"
 import { Crypto } from "@peculiar/webcrypto"
+import { PemConverter } from "@peculiar/x509"
 
 type format = "pem" | "base64" | "base64url" | "hex"
 
@@ -20,6 +21,15 @@ async function exportPEM(keys: CryptoKeyPair) {
         "\n" +
         "-----END PRIVATE KEY-----"
     )
+}
+
+export function isPEM(data: string): data is string {
+    return PemConverter.isPem(data)
+}
+
+export function convertFromPem(pem: string, format: format = "base64url") {
+    const csr: ArrayBuffer = PemConverter.decodeFirst(pem)
+    return Buffer.from(csr).toString(format as BufferEncoding)
 }
 
 export async function createEcdsaCsr(
@@ -82,5 +92,8 @@ async function createCsr({ alg, domains, csrFormat }: CreateCsrParams) {
         ],
         attributes: [],
     })
-    return [privateKey, csr.toString(csrFormat)]
+    return {
+        privateKey,
+        csr: csr.toString(csrFormat),
+    }
 }

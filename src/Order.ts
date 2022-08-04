@@ -1,6 +1,6 @@
 import Authorization from "./Authorization"
 import { Ca } from "./Ca"
-import { createEcdsaCsr, createRsaCsr } from "./Csr"
+import { createEcdsaCsr, createRsaCsr, isPEM, convertFromPem } from "./Csr"
 import { ErrorMalformedResponse } from "./Error"
 import { isEnum, isObject, isOptionalString, isString } from "./Util"
 
@@ -133,9 +133,9 @@ export default class Order {
 
     async csr(type: "RSA" | "ECDSA") {
         if (type === "ECDSA") {
-            return await createEcdsaCsr(this.domains, "base64url")
+            return createEcdsaCsr(this.domains, "pem")
         } else if (type === "RSA") {
-            return await createRsaCsr(this.domains, "base64url")
+            return createRsaCsr(this.domains, "pem")
         } else {
             throw new Error(`Unsupported type ${type}`)
         }
@@ -152,6 +152,9 @@ export default class Order {
     }
 
     async finalize(csr: string) {
+        if (isPEM(csr)) {
+            csr = convertFromPem(csr)
+        }
         const res = await this.ca.post(this.finalizeUrl, {
             csr,
         })
