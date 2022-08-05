@@ -1,8 +1,9 @@
 import { stringifyToBase64url } from "./Util"
-import Directory from "./Directory"
+import { Directory } from "./Directory"
 import { ErrorNotDiscovered } from "./Error"
-import Account from "./Account"
-import SimpleRequest, {
+import { Account } from "./Account"
+import {
+    SimpleRequest,
     Response,
     RequestInfo,
     RequestInit,
@@ -24,7 +25,7 @@ export interface JoseProtectedExistsAccount {
 
 export type JoseProtected = JoseProtectedNewAccount | JoseProtectedExistsAccount
 
-export default class AuthenticatedRequest extends SimpleRequest {
+export class AuthenticatedRequest extends SimpleRequest {
     protected defaultContentType = "application/jose+json"
 
     directory: Directory

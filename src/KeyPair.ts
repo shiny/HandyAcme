@@ -23,7 +23,7 @@ const supportedAlgorithms = {
     },
 }
 
-export default class KeyPair {
+export class KeyPair {
     constructor(public alg: ALG, public keyPair: CryptoKeyPair) {}
 
     static async create(alg: ALG) {

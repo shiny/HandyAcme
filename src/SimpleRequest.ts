@@ -2,7 +2,7 @@ import { mergeDeep } from "./Util"
 import { ErrorResponse, isErrorDescription } from "./Error"
 import fetch, { Response, RequestInfo, RequestInit } from "node-fetch"
 
-export default class SimpleRequest {
+export class SimpleRequest {
     protected defaultUserAgent = "HandyAcme/1.0.0"
     protected defaultContentType = "application/json"
 

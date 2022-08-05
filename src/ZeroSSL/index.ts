@@ -1,6 +1,6 @@
-import Account, { ExternalAccount } from "../Account"
+import { Account, ExternalAccount } from "../Account"
 import { Ca } from "../Ca"
-import SimpleRequest from "../SimpleRequest"
+import { SimpleRequest } from "../SimpleRequest"
 
 export default class extends Ca {
     productionDirectoryUrl = "https://acme.zerossl.com/v2/DV90/directory"

@@ -1,5 +1,5 @@
-import KeyPair, { ALG } from "./KeyPair"
-import AuthenticatedRequest from "./AuthenticatedRequest"
+import { KeyPair, ALG } from "./KeyPair"
+import { AuthenticatedRequest } from "./AuthenticatedRequest"
 import { Ca } from "./Ca"
 import { hmac, stringifyToBase64url } from "./Util"
 
@@ -40,7 +40,7 @@ interface BodyCreateAccount {
     externalAccountBinding?: ExternalAccountBinding
 }
 
-export default class Account {
+export class Account {
     public accountUrl: string
     public ca: Ca
     protected keyPair: KeyPair

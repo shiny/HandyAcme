@@ -24,7 +24,7 @@ export function isResponseChallenge(obj): obj is ResponseChallenge {
     )
 }
 
-export default class Challenge {
+export class Challenge {
     constructor(protected ca: Ca, protected challenge: ResponseChallenge) {}
 
     get isPending() {

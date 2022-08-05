@@ -1,4 +1,4 @@
-import Authorization from "./Authorization"
+import { Authorization } from "./Authorization"
 import { Ca } from "./Ca"
 import { createEcdsaCsr, createRsaCsr, isPEM, convertFromPem } from "./Csr"
 import { ErrorMalformedResponse } from "./Error"
@@ -42,7 +42,7 @@ export function isResponseOrder(obj): obj is ResponseOrder {
     )
 }
 
-export default class Order {
+export class Order {
     public url: string
     public data: ResponseOrder
     public domains: string[]

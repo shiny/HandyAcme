@@ -1,5 +1,5 @@
 import { ErrorMalformedResponse } from "./Error"
-import SimpleRequest from "./SimpleRequest"
+import { SimpleRequest } from "./SimpleRequest"
 import { isObject, isOptionalBoolean, isOptionalString, isString } from "./Util"
 
 export interface Meta {
@@ -45,7 +45,7 @@ export function isDirectoryResponse(obj): obj is DirectoryResponse {
     )
 }
 
-export default class Directory {
+export class Directory {
     directoryUrl: string
 
     newNonce: string

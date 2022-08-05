@@ -1,5 +1,5 @@
 import type { Ca } from "./Ca"
-import Challenge, { ResponseChallenge } from "./Challenge"
+import { Challenge, ResponseChallenge } from "./Challenge"
 import { ResponseOrderIdentifier } from "./Order"
 
 export interface ResponseAuthorization {
@@ -16,7 +16,7 @@ export interface ResponseAuthorization {
     wildcard?: boolean
 }
 
-export default class Authorization {
+export class Authorization {
     public data
 
     constructor(public ca, public url) {}
