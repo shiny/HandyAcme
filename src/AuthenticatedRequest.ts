@@ -2,14 +2,8 @@ import { stringifyToBase64url } from "./Util"
 import { Directory } from "./Directory"
 import { ErrorNotDiscovered } from "./Error"
 import { Account } from "./Account"
-import {
-    SimpleRequest,
-} from "./SimpleRequest"
-import type {
-    Response,
-    RequestInfo,
-    RequestInit,
-} from "./SimpleRequest"
+import { SimpleRequest } from "./SimpleRequest"
+import type { Response, RequestInfo, RequestInit } from "./SimpleRequest"
 
 export interface JoseProtectedNewAccount {
     alg: string
