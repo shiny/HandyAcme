@@ -13,7 +13,7 @@
         "sourceMap": true,
         "esModuleInterop": true,
         "moduleResolution": "Node",
-        "module": "ESNext",
+        "module": "commonjs",
         "allowSyntheticDefaultImports": true,
         "lib": [
             "DOM"

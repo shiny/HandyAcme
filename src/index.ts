@@ -18,7 +18,8 @@ export default class HandyAcme {
         ca: "LetsEncrypt" | "ZeroSSL",
         type: "staging" | "production" = "production",
     ) {
-        const acme: Ca = await import(`./${ca}`)
+        const Acme = (await import(`./${ca}`)).default
+        const acme: Ca = new Acme()
         if (type === "staging") {
             return acme.setStaging()
         } else if (type === "production") {
