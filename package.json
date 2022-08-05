@@ -17,6 +17,7 @@
   "keywords": [
     "ACME"
   ],
+  "types": "./dist/types/index.d.ts",
   "author": "",
   "license": "MIT",
   "bugs": {

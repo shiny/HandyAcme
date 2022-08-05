@@ -13,6 +13,7 @@
         "sourceMap": true,
         "esModuleInterop": true,
         "moduleResolution": "Node",
+        "module": "ESNext",
         "allowSyntheticDefaultImports": true,
         "lib": [
             "DOM"
@@ -20,6 +21,8 @@
         "types": [
             "node",
             "jest"
-        ]
+        ],
+        "declaration": true,
+        "declarationDir": "./dist/types"
     }
 }
