@@ -1,4 +1,5 @@
 import {
+    hmac,
     isEnum,
     isObject,
     isOptional,
@@ -26,6 +27,10 @@ test("sha256", () => {
             "base64",
         ).toString("binary"),
     )
+})
+
+test("hmac", () => {
+    expect(hmac("UNhY4JhezH9gQYqvDMWrWH9CwlcKiECVqejMrND2VFw", "test", "base64url")).toBe("b5oDibbA-yf2v9SN5GE1L04wqstvxU1WIibpWIfgejU")
 })
 
 test("isObject", () => {
