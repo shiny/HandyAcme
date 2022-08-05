@@ -1,4 +1,4 @@
-import { BinaryToTextEncoding, createHash } from "crypto"
+import { BinaryToTextEncoding, createHash, createHmac } from "crypto"
 
 // Deep Merge
 // https://stackoverflow.com/questions/27936772/how-to-deep-merge-instead-of-shallow-merge
@@ -86,4 +86,15 @@ export function sha256(
     format: BinaryToTextEncoding = "base64url",
 ) {
     return createHash("sha256").update(signString).digest(format)
+}
+
+export function hmac(
+    hmacKey: string,
+    signString: string,
+    format: BinaryToTextEncoding = "base64url",
+) {
+    return createHmac("sha256", Buffer.from(hmacKey, "base64"))
+        .update(signString)
+        .digest()
+        .toString(format)
 }

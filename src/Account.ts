@@ -1,11 +1,12 @@
 import KeyPair, { ALG } from "./KeyPair"
-import Directory from "./Directory"
 import AuthenticatedRequest from "./AuthenticatedRequest"
+import { Ca } from "./Ca"
+import { hmac, stringifyToBase64url } from "./Util"
 
 const defaultAlg = ALG.ES256
 
 export interface CreateAccountOptions {
-    directory: Directory
+    ca: Ca
     email: string
 }
 
@@ -14,14 +15,39 @@ export interface ImportAccountOptions extends CreateAccountOptions {
     accountUrl: string
 }
 
+export interface ExternalAccount {
+    kid: string
+    hmacKey: string
+}
+
+interface EABProtected {
+    alg: string
+    kid: string
+    url: string
+}
+
+interface ExternalAccountBinding {
+    // base64url encoding of the stringified EABProtected
+    protected: string
+    // base64url encoding of the stringified JSONWebKey
+    payload: string
+    signature: string
+}
+
+interface BodyCreateAccount {
+    termsOfServiceAgreed: boolean
+    contact: string[]
+    externalAccountBinding?: ExternalAccountBinding
+}
+
 export default class Account {
     public accountUrl: string
-    public directory: Directory
+    public ca: Ca
     protected keyPair: KeyPair
     public email: string
 
     constructor(options: CreateAccountOptions) {
-        this.directory = options.directory
+        this.ca = options.ca
         this.email = options.email
     }
 
@@ -34,7 +60,7 @@ export default class Account {
     }
 
     get isExternalAccountRequired() {
-        return this.directory.meta.externalAccountRequired
+        return this.ca.directory.meta.externalAccountRequired
     }
 
     async sign(content: string): Promise<string> {
@@ -64,29 +90,52 @@ export default class Account {
         return this.keyPair.exportJwkThumbprint()
     }
 
+    async createExternalAccountBinding() {
+        const { kid, hmacKey }: ExternalAccount =
+            await this.ca.getExternalAccount(this)
+        const eabProtected: EABProtected = {
+            alg: "HS256",
+            kid,
+            url: this.ca.directory.newAccount,
+        }
+        const eab: ExternalAccountBinding = {
+            payload: await this.keyPair.exportJwk("base64url"),
+            protected: stringifyToBase64url(eabProtected),
+            signature: "",
+        }
+        const signString = `${eab.protected}.${eab.payload}`
+        eab.signature = hmac(hmacKey, signString, "base64url")
+        return eab
+    }
+
     /**
      * Create a new account
      * @param options
      * @returns
      * @example
-     *
+     * const le = new Letsencrypt()
+     * await le.setStaging()
      * await Account.create({
      *     email: 'test@example.com',
-     *     directory: await Directory.discover()
+     *     ca: le
      * })
      */
     static async create(options: CreateAccountOptions) {
         const account = new Account(options)
         await account.createKeyPair()
         const request = new AuthenticatedRequest({
-            directory: options.directory,
+            directory: options.ca.directory,
             account,
         })
-        const body = {
+        const body: BodyCreateAccount = {
             termsOfServiceAgreed: true,
             contact: [`mailto:${options.email}`],
         }
-        const res = await request.post(options.directory.newAccount, body)
+        if (account.isExternalAccountRequired) {
+            body.externalAccountBinding =
+                await account.createExternalAccountBinding()
+        }
+        const res = await request.post(options.ca.directory.newAccount, body)
         const accountUrl = res.headers.get("location")
         if (!accountUrl) {
             console.error(await res.json())

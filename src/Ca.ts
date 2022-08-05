@@ -1,4 +1,4 @@
-import Account from "./Account"
+import Account, { ExternalAccount } from "./Account"
 import Directory from "./Directory"
 import AuthenticatedRequest from "./AuthenticatedRequest"
 import Order from "./Order"
@@ -31,7 +31,7 @@ export class Ca {
 
     async createAccount(email: string) {
         this.account = await Account.create({
-            directory: this.directory,
+            ca: this,
             email,
         })
     }
@@ -39,7 +39,7 @@ export class Ca {
     async importAccount({ email, accountUrl, jwk }: ImportAccountOptions) {
         this.account = await Account.import({
             email,
-            directory: this.directory,
+            ca: this,
             accountUrl,
             jwk,
         })
@@ -54,6 +54,10 @@ export class Ca {
             accountUrl: this.account.accountUrl,
             jwk: await this.account.exportPrivateJwk(),
         }
+    }
+
+    async getExternalAccount(_account: Account): Promise<ExternalAccount> {
+        throw new Error(`getExternalAccount did not implemented`)
     }
 
     async postAsGet(url, options = {}) {
