@@ -76,8 +76,15 @@ export default class KeyPair {
         return Buffer.from(signature).toString("base64url")
     }
 
-    async exportJwk() {
-        return await crypto.subtle.exportKey("jwk", this.keyPair.publicKey)
+    public async exportJwk(): Promise<JsonWebKey>;
+    public async exportJwk(format: "base64url"): Promise<string>
+    public async exportJwk(format?: "base64url"): Promise<JsonWebKey | string> {
+        const jwk = await crypto.subtle.exportKey("jwk", this.keyPair.publicKey)
+        if (format === 'base64url') {
+            return Buffer.from(JSON.stringify(jwk)).toString("base64url")
+        } else {
+            return jwk
+        }
     }
 
     /**
