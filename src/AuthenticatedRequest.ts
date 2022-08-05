@@ -4,6 +4,8 @@ import { ErrorNotDiscovered } from "./Error"
 import { Account } from "./Account"
 import {
     SimpleRequest,
+} from "./SimpleRequest"
+import type {
     Response,
     RequestInfo,
     RequestInit,
@@ -26,7 +28,7 @@ export interface JoseProtectedExistsAccount {
 export type JoseProtected = JoseProtectedNewAccount | JoseProtectedExistsAccount
 
 export class AuthenticatedRequest extends SimpleRequest {
-    protected defaultContentType = "application/jose+json"
+    public contentType = "application/jose+json"
 
     directory: Directory
     account: Account

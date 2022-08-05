@@ -3,24 +3,8 @@ import { ErrorResponse, isErrorDescription } from "./Error"
 import fetch, { Response, RequestInfo, RequestInit } from "node-fetch"
 
 export class SimpleRequest {
-    protected defaultUserAgent = "HandyAcme/1.0.0"
-    protected defaultContentType = "application/json"
-
-    get userAgent() {
-        return this.defaultUserAgent
-    }
-
-    set userAgent(ua) {
-        this.defaultUserAgent = ua
-    }
-
-    get contentType() {
-        return this.defaultContentType
-    }
-
-    set contentType(contentType) {
-        this.defaultContentType = contentType
-    }
+    public userAgent = "HandyAcme/1.0.0"
+    public contentType = "application/json"
 
     get defaultFetchOption(): RequestInit {
         return {
@@ -67,4 +51,4 @@ export class SimpleRequest {
     }
 }
 
-export { Response, RequestInfo, RequestInit }
+export type { Response, RequestInfo, RequestInit }
