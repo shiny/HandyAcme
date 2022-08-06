@@ -1,9 +1,20 @@
 # Handy Acme
 
-[![Node.js CI](https://github.com/shiny/HandyAcme/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/shiny/HandyAcme/actions/workflows/build.yml)
+
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/shiny/handyacme/Node.js%20CI?style=plastic)
+![npm](https://img.shields.io/npm/v/handyacme?style=plastic)
+![GitHub](https://img.shields.io/github/license/shiny/handyacme?style=plastic)
+
+
+![HandyAcme](https://user-images.githubusercontent.com/117487/183263478-c64b4a31-b5e1-43c1-9e31-6ff03e20ce46.svg)
+
+
+## Install
+```bash
+npm install handyacme --save
+```
 
 ## Get Started
-
 ```typescript
 import HandyAcme from "handyacme"
 const le = await HandyAcme.create("LetsEncrypt")
