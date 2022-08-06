@@ -19,5 +19,14 @@
           }
         ],
         "@typescript-eslint/consistent-type-imports": "warn"
-    }
+    },
+    "overrides": [
+      {
+        // testing file needs var require
+        "files": ["*.spec.ts"],
+        "rules": {
+          "@typescript-eslint/no-var-requires": "off"
+        }
+      }
+    ]
 }
