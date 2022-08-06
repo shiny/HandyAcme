@@ -38,22 +38,15 @@ export class AuthenticatedRequest extends SimpleRequest {
         this.account = account
     }
 
-    protected noncePool: string[] = []
-
     async nonce(): Promise<string> {
-        if (!this.directory?.newNonce) {
+        if (!this.directory.newNonce) {
             throw new ErrorNotDiscovered()
         }
-        const nonce = this.noncePool.pop()
-        if (nonce) {
-            console.log("nonce from cache %s", nonce)
-            return nonce
+        const res = await this.head(this.directory.newNonce)
+        const nonce = res.headers.get("replay-nonce")
+        if (!nonce) {
+            throw new Error(`Failed to get "replay-nonce"`)
         } else {
-            const res = await this.head(this.directory.newNonce)
-            const nonce = res.headers.get("replay-nonce")
-            if (!nonce) {
-                throw new Error(`Failed to get "replay-nonce"`)
-            }
             return nonce
         }
     }
