@@ -1,7 +1,7 @@
 import { Ca } from "../Ca"
-import Letsencrypt from "../Letsencrypt"
+import LetsEncrypt from "../LetsEncrypt"
 
 test("Let's Encrypt", async () => {
-    const le = new Letsencrypt()
+    const le = new LetsEncrypt()
     expect(le).toBeInstanceOf(Ca)
 })
