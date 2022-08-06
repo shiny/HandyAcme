@@ -25,7 +25,7 @@ export function isResponseChallenge(obj): obj is ResponseChallenge {
 }
 
 export class Challenge {
-    constructor(protected ca: Ca, protected challenge: ResponseChallenge) {}
+    constructor(protected ca: Ca, public data: ResponseChallenge) {}
 
     get isPending() {
         return this.status === "pending"
@@ -44,27 +44,27 @@ export class Challenge {
     }
 
     get isVerifyByDns01() {
-        return this.challenge.type === "dns-01"
+        return this.data.type === "dns-01"
     }
 
     get isVerifyByHttp01() {
-        return this.challenge.type === "http-01"
+        return this.data.type === "http-01"
     }
 
     get isVerifyByTlsAlpn01() {
-        return this.challenge.type === "tls-alpn-01"
+        return this.data.type === "tls-alpn-01"
     }
 
     get status() {
-        return this.challenge.status
+        return this.data.status
     }
 
     get url() {
-        return this.challenge.url
+        return this.data.url
     }
 
     get token() {
-        return this.challenge.token
+        return this.data.token
     }
 
     static async restore(ca: Ca, url: string) {
@@ -80,10 +80,10 @@ export class Challenge {
     }
 
     async verify() {
-        const res = await this.ca.post(this.challenge.url, {})
+        const res = await this.ca.post(this.data.url, {})
         const obj = await res.json()
         if (isResponseChallenge(obj)) {
-            this.challenge = obj
+            this.data = obj
         } else {
             throw new Error(
                 "Challenge response was malformed: " + JSON.stringify(obj),
@@ -100,7 +100,7 @@ export class Challenge {
             return sha256(signString)
         } else {
             throw new Error(
-                `Challenge type ${this.challenge.type} is not implemented`,
+                `Challenge type ${this.data.type} is not implemented`,
             )
         }
     }
