@@ -7,7 +7,7 @@ import fetchMock from "node-fetch"
 import { ALG } from "../KeyPair"
 
 export const exampleAccountUrl = "https://example.com/acme/acct/evOfKhNU60wg"
-const accountCreatedResponse = {
+export const accountCreatedResponse = {
     status: 200,
     body: {
         status: "valid",

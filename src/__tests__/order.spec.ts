@@ -33,7 +33,7 @@ export const exampleFinalizeResult = {
         "https://example.com/cert/fa0651f1f73b5484d9fa97f2c559f38585e4",
 }
 
-const exampleOrderResponse = () => {
+export const exampleOrderResponse = () => {
     return {
         headers: {
             location: exampleOrderUrl,

@@ -22,7 +22,7 @@ export class ExampleDirectory {
     meta = meta
 }
 
-const exampleDirectoryResponse = {
+export const exampleDirectoryResponse = {
     newNonce,
     newAccount,
     newOrder,
