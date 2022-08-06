@@ -136,8 +136,6 @@ export class Order {
             return createEcdsaCsr(this.domains, "pem")
         } else if (type === "RSA") {
             return createRsaCsr(this.domains, "pem")
-        } else {
-            throw new Error(`Unsupported type ${type}`)
         }
     }
 
