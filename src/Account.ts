@@ -1,6 +1,6 @@
 import { KeyPair, ALG } from "./KeyPair"
 import { AuthenticatedRequest } from "./AuthenticatedRequest"
-import { Ca } from "./Ca"
+import type { Ca } from "./Ca"
 import { hmac, stringifyToBase64url } from "./Util"
 
 const defaultAlg = ALG.ES256
@@ -71,7 +71,7 @@ export class Account {
         if (!alg) {
             alg = defaultAlg
         }
-        this.keyPair = await KeyPair.create(defaultAlg)
+        this.keyPair = await KeyPair.create(alg)
     }
 
     async importJwk(alg: ALG, jwk: JsonWebKey) {
@@ -138,7 +138,6 @@ export class Account {
         const res = await request.post(options.ca.directory.newAccount, body)
         const accountUrl = res.headers.get("location")
         if (!accountUrl) {
-            console.error(await res.json())
             throw new Error("can not get accountUrl")
         }
         account.accountUrl = accountUrl
