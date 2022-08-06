@@ -46,7 +46,7 @@ export class Ca {
     }
 
     async exportAccount(): Promise<ImportAccountOptions> {
-        if (!this.account.initialized) {
+        if (!this.account?.initialized) {
             throw new Error("Account did not initalized yet")
         }
         return {
