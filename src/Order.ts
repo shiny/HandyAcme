@@ -126,7 +126,7 @@ export class Order {
     async authorizations() {
         return Promise.all(
             this.data.authorizations.map((url) => {
-                return Authorization.create(this.ca, url)
+                return Authorization.restore(this.ca, url)
             }),
         )
     }

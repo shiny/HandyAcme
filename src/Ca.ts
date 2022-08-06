@@ -81,7 +81,7 @@ export class Ca {
     }
 
     async restoreAuthorization(authorizationUrl) {
-        return Authorization.create(this, authorizationUrl)
+        return Authorization.restore(this, authorizationUrl)
     }
 
     async restoreChallenge(challengeUrl) {

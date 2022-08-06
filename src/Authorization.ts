@@ -1,7 +1,11 @@
 import type { Ca } from "./Ca"
-import type { ResponseChallenge } from "./Challenge"
+import { isResponseChallenge, type ResponseChallenge } from "./Challenge"
 import { Challenge } from "./Challenge"
-import type { ResponseOrderIdentifier } from "./Order"
+import {
+    isResponseOrderIdentifier,
+    type ResponseOrderIdentifier,
+} from "./Order"
+import { isEnum, isObject, isOptionalBoolean, isString } from "./Util"
 
 export interface ResponseAuthorization {
     identifier: ResponseOrderIdentifier
@@ -15,6 +19,27 @@ export interface ResponseAuthorization {
     expires: string
     challenges: ResponseChallenge[]
     wildcard?: boolean
+}
+
+export function isResponseAuthorization(obj): obj is ResponseAuthorization {
+    if (!isObject(obj)) {
+        return false
+    }
+    return (
+        isResponseOrderIdentifier(obj.identifier) &&
+        isEnum(obj.status, [
+            "pending",
+            "valid",
+            "invalid",
+            "deactivated",
+            "expired",
+            "revoked",
+        ]) &&
+        isString(obj.expires) &&
+        isOptionalBoolean(obj.wildcard) &&
+        Array.isArray(obj.challenges) &&
+        obj.challenges.every(isResponseChallenge)
+    )
 }
 
 export class Authorization {
@@ -47,15 +72,20 @@ export class Authorization {
         return this.data.status
     }
 
-    static async create(ca: Ca, url: string) {
+    static async restore(ca: Ca, url: string) {
         const auth = new Authorization(ca, url)
-        await auth.load()
+        await auth.verify()
         return auth
     }
 
-    async load() {
+    async verify() {
         const res = await this.ca.postAsGet(this.url)
-        this.data = await res.json()
+        const obj = await res.json()
+        if (isResponseAuthorization(obj)) {
+            this.data = obj
+        } else {
+            throw new Error("Malformed authorization response")
+        }
     }
 
     get challenges() {

@@ -83,7 +83,7 @@ export class Challenge {
         const res = await this.ca.post(this.challenge.url, {})
         const obj = await res.json()
         if (isResponseChallenge(obj)) {
-            return new Challenge(this.ca, obj)
+            this.challenge = obj
         } else {
             throw new Error(
                 "Challenge response was malformed: " + JSON.stringify(obj),
