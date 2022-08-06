@@ -26,10 +26,6 @@ export class Authorization {
         return this.status === "pending"
     }
 
-    get isProcessing() {
-        return this.status === "processing"
-    }
-
     get isValid() {
         return this.status === "valid"
     }
