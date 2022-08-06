@@ -21,18 +21,18 @@ const supportedAlgorithms = {
             hash: "SHA-256",
         },
     },
-    // RSASSA-PKCS1-v1_5 using SHA-256 
+    // RSASSA-PKCS1-v1_5 using SHA-256
     [ALG.RS256]: {
         genParams: {
-            name: 'RSASSA-PKCS1-v1_5',
+            name: "RSASSA-PKCS1-v1_5",
             modulusLength: 2048,
             publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-            hash: 'SHA-256'
+            hash: "SHA-256",
         },
         params: {
             name: "RSASSA-PKCS1-v1_5",
         },
-    }
+    },
 }
 
 export class KeyPair {
