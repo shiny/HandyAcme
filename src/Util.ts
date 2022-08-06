@@ -1,4 +1,4 @@
-import { BinaryToTextEncoding, createHash, createHmac } from "crypto"
+import { type BinaryToTextEncoding, createHash, createHmac } from "crypto"
 
 // Deep Merge
 // https://stackoverflow.com/questions/27936772/how-to-deep-merge-instead-of-shallow-merge

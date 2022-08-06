@@ -1,4 +1,4 @@
-import { Ca } from "./Ca"
+import type { Ca } from "./Ca"
 import { isEnum, isObject, isString, sha256 } from "./Util"
 
 export interface ResponseChallenge {

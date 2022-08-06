@@ -1,4 +1,4 @@
-import { Account, ExternalAccount } from "./Account"
+import { Account, type ExternalAccount } from "./Account"
 import { Directory } from "./Directory"
 import { AuthenticatedRequest } from "./AuthenticatedRequest"
 import { Order } from "./Order"

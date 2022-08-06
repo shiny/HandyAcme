@@ -1,6 +1,7 @@
 import { mergeDeep } from "./Util"
 import { ErrorResponse, isErrorDescription } from "./Error"
-import fetch, { Response, RequestInfo, RequestInit } from "node-fetch"
+import fetch from "node-fetch"
+import type { Response, RequestInfo, RequestInit } from "node-fetch"
 
 export class SimpleRequest {
     public userAgent = "HandyAcme/1.0.0"

@@ -1,5 +1,5 @@
 import { Authorization } from "./Authorization"
-import { Ca } from "./Ca"
+import type { Ca } from "./Ca"
 import { createEcdsaCsr, createRsaCsr, isPEM, convertFromPem } from "./Csr"
 import { ErrorMalformedResponse } from "./Error"
 import { isEnum, isObject, isOptionalString, isString } from "./Util"
