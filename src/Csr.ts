@@ -9,7 +9,7 @@ x509.cryptoProvider.set(crypto)
 
 function chunkString(str: string, limit = 64) {
     const reg = new RegExp(`.{1,${limit}}`, "g")
-    return str.match(reg)?.join("\n")
+    return str.match(reg).join("\n")
 }
 
 async function exportPEM(keys: CryptoKeyPair) {
