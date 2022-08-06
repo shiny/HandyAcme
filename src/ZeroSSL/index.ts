@@ -6,7 +6,7 @@ export default class extends Ca {
     productionDirectoryUrl = "https://acme.zerossl.com/v2/DV90/directory"
     eabFromEmailUrl = "https://api.zerossl.com/acme/eab-credentials-email"
 
-    setStaging(): never {
+    async setStaging(): Promise<never> {
         throw new Error("No staging mode in ZeroSSL")
     }
 
