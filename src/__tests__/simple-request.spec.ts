@@ -3,6 +3,7 @@ import { SimpleRequest } from "../SimpleRequest"
 jest.mock("node-fetch", () => require("fetch-mock-jest").sandbox())
 import fetchMock from "node-fetch"
 import { ErrorResponse } from "../Error"
+export { fetchMock }
 
 afterEach(() => {
     fetchMock.reset()
