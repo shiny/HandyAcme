@@ -152,7 +152,7 @@ export class Account {
      *
      * await Account.import({
      *     email: 'test@example.com',
-     *     directory: await Directory.discover(),
+     *     ca: le,
      *     jwk: {...},
      *     accountUrl: 'https://example.com/acme/acct/evOfKhNU60wg'
      * })
