@@ -74,7 +74,7 @@ test("Nonce Cache", async () => {
             body: req.body,
         }
     })
-    const res = await request.postAsGet(url)
+    await request.postAsGet(url)
     await expect(request.nonce()).resolves.toBe(nonceCache2)
 
 })
