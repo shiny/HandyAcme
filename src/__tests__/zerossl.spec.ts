@@ -1,8 +1,8 @@
-jest.mock("node-fetch", () => require("fetch-mock-jest").sandbox())
+import { fetchMock } from "../__mocks__/Fetch"
+
 import { Account } from "../Account"
 import ZeroSSL from "../ZeroSSL"
-import { exampleEmail } from "./account.spec"
-import fetchMock from "node-fetch"
+import { exampleEmail } from "../__mocks__/ExampleAccount"
 import { URLSearchParams } from "url"
 
 test("No staging mode in ZeroSSL", async () => {

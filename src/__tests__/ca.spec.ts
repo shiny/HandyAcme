@@ -1,66 +1,22 @@
-import { Account, type ExternalAccount } from "../Account"
+
+import { fetchMock, mockNewNonce } from "../__mocks__/Fetch"
+import { Account } from "../Account"
 import { Ca } from "../Ca"
-import { ExampleDirectory, exampleDirectoryResponse } from "./directory.spec"
-jest.mock("node-fetch", () => require("fetch-mock-jest").sandbox())
-import fetchMock from "node-fetch"
+import { exampleDirectoryResponse } from "../__mocks__/ExampleDirectory"
 import {
     exampleEmail,
-    exampleJwk,
-    exampleAccountUrl,
     accountCreatedResponse,
-} from "./account.spec"
-import { mockNewNonce } from "./authenticated-request.spec"
+} from "../__mocks__/ExampleAccount"
 import { ErrorMalformedResponse } from "../Error"
-import { exampleOrderResponse } from "./order.spec"
 import { Order } from "../Order"
-import {
-    exampleAuthorization,
-    exampleAuthorizationUrl,
-} from "./authorization.spec"
 import { Authorization } from "../Authorization"
-import { exampleHttpChallenge } from "./challenage.spec"
 import { Challenge } from "../Challenge"
+import { ExampleCa, mockExampleCa } from "../__mocks__/ExampleCa"
+import { exampleAuthorization, exampleAuthorizationUrl } from "../__mocks__/ExampleAuthorization"
+import { exampleOrderResponse } from "../__mocks__/ExampleOrder"
+import { exampleHttpChallenge } from "../__mocks__/ExampleChallenage"
 
-const directory = new ExampleDirectory()
-
-fetchMock.head(directory.newNonce, () => {
-    return {
-        status: 200,
-        headers: {
-            "replay-nonce": "example-nonce",
-        },
-    }
-})
-
-export async function mockExampleCa() {
-    const ca = new ExampleCa()
-    await ca.importAccount({
-        email: exampleEmail,
-        accountUrl: exampleAccountUrl,
-        jwk: exampleJwk,
-    })
-    return ca
-}
-
-export class ExampleCa extends Ca {
-    constructor() {
-        super()
-        this.directory = directory
-        this.request.directory = directory
-    }
-    async getExternalAccount(_account: Account): Promise<ExternalAccount> {
-        return {
-            kid: "SuAqLb713TKpdsbZT0MjDQ",
-            hmacKey:
-                "lE6a4o_u0AloDGAmUXDpGustuK8kGjUZC9fPElUq3F78rQtBqsp-uLFg_5iarSOG4Q_pizy-vY1Ql8Mm6chCDw",
-        }
-    }
-}
-
-beforeEach(() => {
-    fetchMock.reset()
-    mockNewNonce()
-})
+mockNewNonce()
 
 test("Ca Environment", async () => {
     const ca = new Ca()

@@ -1,35 +1,19 @@
-import { fetchMock } from "./simple-request.spec"
+
+import { fetchMock } from "../__mocks__/Fetch"
+
 import { Directory, isDirectoryResponse } from "../Directory"
 import { ErrorMalformedResponse } from "../Error"
 
-const directoryUrl = "https://example.com/directory"
-const newNonce = "https://example.com/newNonce"
-const newAccount = "https://example.com/newAccount"
-const newOrder = "https://example.com/newOrder"
-const revokeCert = "https://example.com/revokeCert"
-const keyChange = "https://example.com/keyChange"
-const meta = {
-    externalAccountRequired: true,
-}
-
-export class ExampleDirectory {
-    directoryUrl = directoryUrl
-    newNonce = newNonce
-    newAccount = newAccount
-    newOrder = newOrder
-    revokeCert = revokeCert
-    keyChange = keyChange
-    meta = meta
-}
-
-export const exampleDirectoryResponse = {
-    newNonce,
-    newAccount,
-    newOrder,
-    revokeCert,
+import {
+    exampleDirectoryResponse,
+    directoryUrl,
     keyChange,
     meta,
-}
+    newAccount,
+    newNonce,
+    newOrder,
+    revokeCert
+} from "../__mocks__/ExampleDirectory"
 
 const malformedDirectoryResponse = Object.assign({}, exampleDirectoryResponse, {
     meta: 123,

@@ -1,32 +1,12 @@
+import { fetchMock, mockNewNonce } from "../__mocks__/Fetch"
+
 import {
     Challenge,
     isResponseChallenge,
-    type ResponseChallenge,
 } from "../Challenge"
-import { mockNewNonce } from "./authenticated-request.spec"
-import { mockExampleCa } from "./ca.spec"
-import { fetchMock } from "./simple-request.spec"
+import { mockExampleCa } from "../__mocks__/ExampleCa"
+import { exampleDnsChallenge, exampleHttpChallenge, exampleTlsAlpnChallenge } from "../__mocks__/ExampleChallenage"
 
-export const exampleHttpChallenge: ResponseChallenge = {
-    type: "http-01",
-    status: "pending",
-    url: "https://example.com/authz/3250549274/NPuHT1",
-    token: "Jyq2Kxs8rbwGOPAPMOiHMhj3X_Y9cjqYIDcuKss0tTk",
-}
-
-export const exampleDnsChallenge: ResponseChallenge = {
-    type: "dns-01",
-    status: "pending",
-    url: "https://example.com/authz/3250549274/NPuHTg",
-    token: "Jyq2Kxs8rbwGOPAPMOiHMhj3X_Y9cjqYIDcuKss0tTk",
-}
-
-export const exampleTlsAlpnChallenge: ResponseChallenge = {
-    type: "tls-alpn-01",
-    status: "pending",
-    url: "https://example.com/authz/3250549274/NPXHTg",
-    token: "Jyq2Kxs8rbwGOPAPMOiHMhj3X_Y9cjqYIDcuKss0tTk",
-}
 
 const malformedExampleHttpChallenge = Object.assign({}, exampleHttpChallenge, {
     status: "invalid-status",

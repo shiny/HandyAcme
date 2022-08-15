@@ -1,9 +1,6 @@
+import { fetchMock } from "../__mocks__/Fetch"
 import { SimpleRequest } from "../SimpleRequest"
-// eslint-disable-next-line @typescript-eslint/no-var-requires -- require is necessary to mock
-jest.mock("node-fetch", () => require("fetch-mock-jest").sandbox())
-import fetchMock from "node-fetch"
 import { ErrorResponse } from "../Error"
-export { fetchMock }
 
 afterEach(() => {
     fetchMock.reset()
