@@ -33,4 +33,4 @@ jobs:
         npm run build --if-present
         npm run typecheck
         npm run lint
-        npm test
+        npm test -- --maxWorkers=2
