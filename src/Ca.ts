@@ -16,16 +16,26 @@ export class Ca {
     account: Account
     productionDirectoryUrl = ""
     stagingDirectoryUrl = ""
+    request: AuthenticatedRequest
+
+    constructor() {
+        this.request = new AuthenticatedRequest({
+            directory: null,
+            account: null
+        })
+    }
 
     async setStaging(): Promise<this> {
         const directory = await Directory.discover(this.stagingDirectoryUrl)
         this.directory = directory
+        this.request.directory = directory
         return this
     }
 
     async setProduction(): Promise<this> {
         const directory = await Directory.discover(this.productionDirectoryUrl)
         this.directory = directory
+        this.request.directory = directory
         return this
     }
 
@@ -34,6 +44,7 @@ export class Ca {
             ca: this,
             email,
         })
+        this.request.account = this.account
     }
 
     async importAccount({ email, accountUrl, jwk }: ImportAccountOptions) {
@@ -43,6 +54,7 @@ export class Ca {
             accountUrl,
             jwk,
         })
+        this.request.account = this.account
     }
 
     async exportAccount(): Promise<ImportAccountOptions> {
@@ -65,11 +77,7 @@ export class Ca {
     }
 
     async post(url, payload, options = {}) {
-        const request = new AuthenticatedRequest({
-            directory: this.directory,
-            account: this.account,
-        })
-        return request.post(url, payload, options)
+        return this.request.post(url, payload, options)
     }
 
     async createOrder(domains: string[]) {

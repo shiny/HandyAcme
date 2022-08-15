@@ -42,7 +42,7 @@ test("ErrorNotDiscovered", async () => {
     await expect(request.nonce()).rejects.toThrowError(new ErrorNotDiscovered())
 })
 
-test("nonce", async () => {
+test("nonce", async () => { 
     const directory = new ExampleDirectory()
 
     const request = new AuthenticatedRequest({
@@ -51,6 +51,34 @@ test("nonce", async () => {
     })
     await expect(request.nonce()).resolves.toBe(exampleNonce)
 })
+
+test("Nonce Cache", async () => { 
+    const directory = new ExampleDirectory()
+
+    const request = new AuthenticatedRequest({
+        directory,
+        account: await ExampleAccount.mockImport(),
+    })
+    const nonceCache1 = 'nonce cache 1'
+    const nonceCache2 = 'nonce cache 2'
+    request.noncePool.push(nonceCache1)
+    await expect(request.nonce()).resolves.toBe(nonceCache1)
+
+    const url = "http://example.com/postAsGet"
+    fetchMock.post(url, (_url, req) => {
+        return {
+            headers: {
+                'replay-nonce': nonceCache2
+            },
+            status: 200,
+            body: req.body,
+        }
+    })
+    const res = await request.postAsGet(url)
+    await expect(request.nonce()).resolves.toBe(nonceCache2)
+
+})
+
 
 test("No nonce", async () => {
     fetchMock.head(directory.newNonce, () => 200, {

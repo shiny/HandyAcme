@@ -26,6 +26,7 @@ export class AuthenticatedRequest extends SimpleRequest {
 
     directory: Directory
     account: Account
+    noncePool: string[] = []
 
     /**
      *
@@ -42,10 +43,15 @@ export class AuthenticatedRequest extends SimpleRequest {
         if (!this.directory.newNonce) {
             throw new ErrorNotDiscovered()
         }
-        const res = await this.head(this.directory.newNonce)
-        const nonce = res.headers.get("replay-nonce")
+        const nonce = this.noncePool.pop()
         if (!nonce) {
-            throw new Error(`Failed to get "replay-nonce"`)
+            const res = await this.head(this.directory.newNonce)
+            const replayNonce = res.headers.get("replay-nonce")
+            if (!replayNonce) {
+                throw new Error(`Failed to get "replay-nonce"`)
+            } else {
+                return replayNonce
+            }
         } else {
             return nonce
         }
@@ -91,10 +97,15 @@ export class AuthenticatedRequest extends SimpleRequest {
         body.signature = await this.account.sign(
             `${body.protected}.${body.payload}`,
         )
-        return this.fetch(url, {
+        const res = await this.fetch(url, {
             method: "POST",
             body: JSON.stringify(body),
             ...options,
         })
+        const nonce = res.headers.get("replay-nonce")
+        if (nonce) {
+            this.noncePool.push(nonce)
+        }
+        return res
     }
 }
