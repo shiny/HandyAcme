@@ -46,6 +46,7 @@ export class ExampleCa extends Ca {
     constructor() {
         super()
         this.directory = directory
+        this.request.directory = directory
     }
     async getExternalAccount(_account: Account): Promise<ExternalAccount> {
         return {
