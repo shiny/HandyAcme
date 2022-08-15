@@ -1,4 +1,3 @@
-
 import { AuthenticatedRequest } from "../AuthenticatedRequest"
 import { ExampleAccount } from "./ExampleAccount"
 import { ExampleDirectory } from "./ExampleDirectory"

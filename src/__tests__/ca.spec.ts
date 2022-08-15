@@ -1,4 +1,3 @@
-
 import { fetchMock, mockNewNonce } from "../__mocks__/Fetch"
 import { Account } from "../Account"
 import { Ca } from "../Ca"
@@ -12,7 +11,10 @@ import { Order } from "../Order"
 import { Authorization } from "../Authorization"
 import { Challenge } from "../Challenge"
 import { ExampleCa, mockExampleCa } from "../__mocks__/ExampleCa"
-import { exampleAuthorization, exampleAuthorizationUrl } from "../__mocks__/ExampleAuthorization"
+import {
+    exampleAuthorization,
+    exampleAuthorizationUrl,
+} from "../__mocks__/ExampleAuthorization"
 import { exampleOrderResponse } from "../__mocks__/ExampleOrder"
 import { exampleHttpChallenge } from "../__mocks__/ExampleChallenage"
 

@@ -1,4 +1,3 @@
-
 import { fetchMock } from "../__mocks__/Fetch"
 
 import { Directory, isDirectoryResponse } from "../Directory"
@@ -12,7 +11,7 @@ import {
     newAccount,
     newNonce,
     newOrder,
-    revokeCert
+    revokeCert,
 } from "../__mocks__/ExampleDirectory"
 
 const malformedDirectoryResponse = Object.assign({}, exampleDirectoryResponse, {

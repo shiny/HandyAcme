@@ -1,4 +1,4 @@
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires -- require is necessary to mock
 jest.mock("node-fetch", () => require("fetch-mock-jest").sandbox())
 import fetch from "node-fetch"
 import { exampleNonce } from "./ExampleAuthenticatedRequest"

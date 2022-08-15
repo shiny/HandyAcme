@@ -1,4 +1,3 @@
-
 export const exampleAuthorizationUrl = "https://example.com/authz/3250549274"
 export const exampleAuthorization = {
     identifier: { type: "dns", value: "example.com" },

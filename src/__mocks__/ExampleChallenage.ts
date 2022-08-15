@@ -1,4 +1,4 @@
-import { ResponseChallenge } from "../Challenge"
+import type { ResponseChallenge } from "../Challenge"
 
 export const exampleHttpChallenge: ResponseChallenge = {
     type: "http-01",

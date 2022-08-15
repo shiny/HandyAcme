@@ -3,8 +3,10 @@ import { fetchMock, mockNewNonce } from "../__mocks__/Fetch"
 import { Authorization, isResponseAuthorization } from "../Authorization"
 import { Challenge } from "../Challenge"
 import { mockExampleCa } from "../__mocks__/ExampleCa"
-import { exampleAuthorization, exampleAuthorizationUrl } from "../__mocks__/ExampleAuthorization"
-
+import {
+    exampleAuthorization,
+    exampleAuthorizationUrl,
+} from "../__mocks__/ExampleAuthorization"
 
 beforeEach(() => {
     fetchMock.reset()

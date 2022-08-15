@@ -21,7 +21,7 @@ export class Ca {
     constructor() {
         this.request = new AuthenticatedRequest({
             directory: null,
-            account: null
+            account: null,
         })
     }
 

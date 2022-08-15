@@ -1,12 +1,12 @@
 import { fetchMock, mockNewNonce } from "../__mocks__/Fetch"
 
-import {
-    Challenge,
-    isResponseChallenge,
-} from "../Challenge"
+import { Challenge, isResponseChallenge } from "../Challenge"
 import { mockExampleCa } from "../__mocks__/ExampleCa"
-import { exampleDnsChallenge, exampleHttpChallenge, exampleTlsAlpnChallenge } from "../__mocks__/ExampleChallenage"
-
+import {
+    exampleDnsChallenge,
+    exampleHttpChallenge,
+    exampleTlsAlpnChallenge,
+} from "../__mocks__/ExampleChallenage"
 
 const malformedExampleHttpChallenge = Object.assign({}, exampleHttpChallenge, {
     status: "invalid-status",

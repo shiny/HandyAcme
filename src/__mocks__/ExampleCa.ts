@@ -1,4 +1,4 @@
-import { Account, ExternalAccount } from "../Account"
+import type { Account, ExternalAccount } from "../Account"
 import { Ca } from "../Ca"
 import { exampleAccountUrl, exampleEmail, exampleJwk } from "./ExampleAccount"
 import { ExampleDirectory } from "./ExampleDirectory"

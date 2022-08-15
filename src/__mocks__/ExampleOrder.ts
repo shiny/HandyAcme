@@ -1,4 +1,3 @@
-
 export const exampleOrderUrl = "https://example.com/order/63534994/3527102614"
 export const exampleOrder = {
     status: "pending",

@@ -1,12 +1,18 @@
-
 import { fetchMock, mockNewNonce } from "../__mocks__/Fetch"
 import { Account } from "../Account"
 import { ExampleCa } from "../__mocks__/ExampleCa"
 import { ALG } from "../KeyPair"
-import { accountCreatedResponse, ExampleAccount, exampleAccountUrl, exampleEmail, exampleJwk, examplePublicJwk } from "../__mocks__/ExampleAccount"
+import {
+    accountCreatedResponse,
+    ExampleAccount,
+    exampleAccountUrl,
+    exampleEmail,
+    exampleJwk,
+    examplePublicJwk,
+} from "../__mocks__/ExampleAccount"
 
 mockNewNonce()
-let ca = new ExampleCa()
+const ca = new ExampleCa()
 
 beforeEach(() => {
     fetchMock.reset()

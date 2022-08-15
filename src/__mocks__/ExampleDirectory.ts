@@ -1,5 +1,3 @@
-
-
 export const directoryUrl = "https://example.com/directory"
 export const newNonce = "https://example.com/newNonce"
 export const newAccount = "https://example.com/newAccount"

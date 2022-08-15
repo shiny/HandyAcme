@@ -1,4 +1,3 @@
-
 import { fetchMock, mockNewNonce } from "../__mocks__/Fetch"
 
 import { Authorization } from "../Authorization"
@@ -7,8 +6,12 @@ import { ErrorMalformedResponse } from "../Error"
 import { isResponseOrder, isResponseOrderIdentifier, Order } from "../Order"
 import { mockExampleCa } from "../__mocks__/ExampleCa"
 import { exampleAuthorization } from "../__mocks__/ExampleAuthorization"
-import { exampleFinalizeResult, exampleOrder, exampleOrderResponse, exampleOrderUrl } from "../__mocks__/ExampleOrder"
-
+import {
+    exampleFinalizeResult,
+    exampleOrder,
+    exampleOrderResponse,
+    exampleOrderUrl,
+} from "../__mocks__/ExampleOrder"
 
 beforeEach(() => {
     fetchMock.reset()
