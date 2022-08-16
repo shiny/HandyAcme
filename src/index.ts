@@ -1,5 +1,9 @@
 import type { Ca } from "./Ca"
 
+import BuyPass from "./BuyPass"
+import LetsEncrypt from "./LetsEncrypt"
+import ZeroSSL from "./ZeroSSL"
+
 export * from "./Account"
 export * from "./AuthenticatedRequest"
 export * from "./Authorization"
@@ -15,8 +19,8 @@ export * from "./Util"
 
 export default class HandyAcme {
     static async create(
-        ca: "LetsEncrypt" | "ZeroSSL",
-        type: "staging" | "production" = "production",
+        ca: "LetsEncrypt" | "ZeroSSL" | "BuyPass",
+        type: "staging" | "production" | "none" = "production",
     ) {
         const Acme = (await import(`./${ca}`)).default
         const acme: Ca = new Acme()
@@ -27,3 +31,5 @@ export default class HandyAcme {
         }
     }
 }
+
+export { LetsEncrypt, ZeroSSL, BuyPass }
