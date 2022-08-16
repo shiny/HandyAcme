@@ -1,11 +1,22 @@
-import { mergeDeep } from "./Util"
 import { ErrorResponse, isErrorDescription } from "./Error"
 import fetch from "node-fetch"
 import type { Response, RequestInfo, RequestInit } from "node-fetch"
+import type { Agent } from "node:http"
 
 export class SimpleRequest {
     public userAgent = "HandyAcme/1.0.0"
     public contentType = "application/json"
+
+    // maximum redirect count. 0 to not follow redirect
+    public follow = 20
+    // req/res timeout in ms, it resets on redirect. 0 to disable (OS limit applies). Signal is recommended instead.
+    public timeout = 0
+    // support gzip/deflate content encoding. false to disable
+    public compress = true
+    // maximum response body size in bytes. 0 to disable
+    public size = 0
+    // http(s).Agent instance or function that returns an instance
+    public agent: Agent
 
     get defaultFetchOption(): RequestInit {
         return {
@@ -13,14 +24,24 @@ export class SimpleRequest {
                 "User-Agent": this.userAgent,
                 "Content-Type": this.contentType,
             },
+            agent: this.agent,
+            size: this.size,
+            compress: this.compress,
+            timeout: this.timeout,
+            follow: this.follow,
         }
     }
 
     async fetch(url: RequestInfo, options?: RequestInit): Promise<Response> {
-        const res = await fetch(
-            url,
-            mergeDeep({}, this.defaultFetchOption, options),
-        )
+        const fetchOptions = Object.assign({}, this.defaultFetchOption, options)
+        if (options?.headers) {
+            fetchOptions.headers = Object.assign(
+                {},
+                this.defaultFetchOption.headers,
+                options.headers,
+            )
+        }
+        const res = await fetch(url, fetchOptions)
         if ([200, 201].includes(res.status)) {
             return res
         } else {

@@ -54,11 +54,27 @@ export class Directory {
     revokeCert: string
     keyChange: string
     meta: Meta
+    request: SimpleRequest
+
+    constructor(url = "") {
+        if (url) {
+            this.directoryUrl = url
+        }
+    }
 
     static async discover(url) {
         const directory = new Directory()
-        directory.directoryUrl = url
-        const res = await SimpleRequest.fetch(url)
+        return directory.discover(url)
+    }
+
+    async discover(url = "") {
+        if (url) {
+            this.directoryUrl = url
+        }
+        if (!this.request) {
+            this.request = new SimpleRequest()
+        }
+        const res = await this.request.fetch(url)
         const obj = await res.json()
         if (isDirectoryResponse(obj)) {
             const {
@@ -69,13 +85,13 @@ export class Directory {
                 keyChange,
                 meta,
             }: DirectoryResponse = obj
-            directory.newNonce = newNonce
-            directory.newAccount = newAccount
-            directory.newOrder = newOrder
-            directory.revokeCert = revokeCert
-            directory.keyChange = keyChange
-            directory.meta = meta || {}
-            return directory
+            this.newNonce = newNonce
+            this.newAccount = newAccount
+            this.newOrder = newOrder
+            this.revokeCert = revokeCert
+            this.keyChange = keyChange
+            this.meta = meta || {}
+            return this
         } else {
             throw new ErrorMalformedResponse(obj)
         }

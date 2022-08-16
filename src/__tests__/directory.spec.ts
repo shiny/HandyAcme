@@ -20,7 +20,12 @@ const malformedDirectoryResponse = Object.assign({}, exampleDirectoryResponse, {
 
 afterEach(() => fetchMock.reset())
 
-test("discover", async () => {
+test("Construct Directory", async () => {
+    const directory = new Directory(directoryUrl)
+    expect(directory.directoryUrl).toBe(directoryUrl)
+})
+
+test("Discover Directory", async () => {
     fetchMock.get(directoryUrl, () => exampleDirectoryResponse)
 
     const directory = await Directory.discover(directoryUrl)

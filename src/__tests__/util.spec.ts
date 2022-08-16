@@ -6,7 +6,6 @@ import {
     isOptionalBoolean,
     isOptionalString,
     isString,
-    mergeDeep,
     sha256,
     stringifyToBase64url,
 } from "../Util"
@@ -119,48 +118,6 @@ test("isOptionalBoolean", () => {
     // others
     expect(isOptionalString(obj.a)).toBeFalsy()
     expect(isOptionalString([obj.d, obj.a])).toBeFalsy()
-})
-
-test("mergeDeep", () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const target: Record<string, any> = {
-        a: "a",
-        b: {
-            c: "c",
-            g: {
-                h: "h",
-            },
-        },
-    }
-    const source = {
-        a: "b",
-        b: {
-            d: "d",
-            g: {
-                i: "i",
-            },
-        },
-        e: "e",
-        j: {
-            k: "k",
-        },
-    }
-    const result = mergeDeep(target, source)
-    expect(target.a).toBe("b")
-    expect(target.b.d).toBe("d")
-    expect(target.b.c).toBe("c")
-    expect(target.b.g.h).toBe("h")
-    expect(target.b.g.i).toBe("i")
-    expect(target.e).toBe("e")
-    expect(target.j.k).toBe("k")
-
-    expect(result.a).toBe("b")
-    expect(result.b.d).toBe("d")
-    expect(result.b.c).toBe("c")
-    expect(result.b.g.h).toBe("h")
-    expect(result.b.g.i).toBe("i")
-    expect(result.e).toBe("e")
-    expect(target.j.k).toBe("k")
 })
 
 test("stringifyToBase64url", () => {

@@ -1,3 +1,5 @@
+import { Directory } from "../Directory"
+
 export const directoryUrl = "https://example.com/directory"
 export const newNonce = "https://example.com/newNonce"
 export const newAccount = "https://example.com/newAccount"
@@ -8,7 +10,7 @@ export const meta = {
     externalAccountRequired: true,
 }
 
-export class ExampleDirectory {
+export class ExampleDirectory extends Directory {
     directoryUrl = directoryUrl
     newNonce = newNonce
     newAccount = newAccount

@@ -1,5 +1,4 @@
 import { KeyPair, ALG } from "./KeyPair"
-import { AuthenticatedRequest } from "./AuthenticatedRequest"
 import type { Ca } from "./Ca"
 import { hmac, stringifyToBase64url } from "./Util"
 
@@ -123,10 +122,7 @@ export class Account {
     static async create(options: CreateAccountOptions) {
         const account = new Account(options)
         await account.createKeyPair()
-        const request = new AuthenticatedRequest({
-            directory: options.ca.directory,
-            account,
-        })
+        options.ca.setAccount(account)
         const body: BodyCreateAccount = {
             termsOfServiceAgreed: true,
             contact: [`mailto:${options.email}`],
@@ -135,7 +131,7 @@ export class Account {
             body.externalAccountBinding =
                 await account.createExternalAccountBinding()
         }
-        const res = await request.post(options.ca.directory.newAccount, body)
+        const res = await options.ca.post(options.ca.directory.newAccount, body)
         const accountUrl = res.headers.get("location")
         if (!accountUrl) {
             throw new Error("can not get accountUrl")
