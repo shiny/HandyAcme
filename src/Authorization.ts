@@ -5,7 +5,7 @@ import {
     isResponseOrderIdentifier,
     type ResponseOrderIdentifier,
 } from "./Order"
-import { isEnum, isObject, isOptionalBoolean, isString } from "./Util"
+import { isEnum, isObject, isOptionalBoolean, isOptionalString } from "./Util"
 
 export interface ResponseAuthorization {
     identifier: ResponseOrderIdentifier
@@ -35,7 +35,7 @@ export function isResponseAuthorization(obj): obj is ResponseAuthorization {
             "expired",
             "revoked",
         ]) &&
-        isString(obj.expires) &&
+        isOptionalString(obj.expires) &&
         isOptionalBoolean(obj.wildcard) &&
         Array.isArray(obj.challenges) &&
         obj.challenges.every(isResponseChallenge)
