@@ -3,6 +3,7 @@ import { Ca } from "../Ca"
 import { SimpleRequest } from "../SimpleRequest"
 
 export default class extends Ca {
+    name = 'ZeroSSL'
     productionDirectoryUrl = "https://acme.zerossl.com/v2/DV90/directory"
     eabFromEmailUrl = "https://api.zerossl.com/acme/eab-credentials-email"
 

@@ -12,6 +12,7 @@ interface ImportAccountOptions {
 }
 
 export class Ca {
+    name: string
     directory: Directory
     account: Account
     productionDirectoryUrl = ""
