@@ -18,6 +18,7 @@ export class Ca {
     productionDirectoryUrl = ""
     stagingDirectoryUrl = ""
     request: AuthenticatedRequest
+    env: "staging" | "production"
 
     constructor() {
         this.request = new AuthenticatedRequest({
@@ -27,10 +28,12 @@ export class Ca {
     }
 
     async setStaging(): Promise<this> {
+        this.env = "staging"
         return this.setDirectory(this.stagingDirectoryUrl)
     }
 
     async setProduction(): Promise<this> {
+        this.env = "production"
         return this.setDirectory(this.productionDirectoryUrl)
     }
 

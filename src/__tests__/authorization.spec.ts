@@ -31,6 +31,57 @@ test("create", async () => {
     expect(auth.challengeTlsAlpn).toBeUndefined()
 })
 
+test('is Not Wildcard', async () => {
+    fetchMock.post(exampleAuthorizationUrl, () => {
+        return {
+            ...exampleAuthorization,
+            wildcard: null
+        }
+    })
+    const authNotWildcatd = await Authorization.restore(
+        await mockExampleCa(),
+        exampleAuthorizationUrl
+    )
+    expect(authNotWildcatd.isWildcard).toBeFalsy()
+})
+
+test('is Wildcard', async () => {
+    fetchMock.post(exampleAuthorizationUrl, () => {
+        return {
+            ...exampleAuthorization,
+            wildcard: true
+        }
+    })
+    const authWildcard = await Authorization.restore(
+        await mockExampleCa(),
+        exampleAuthorizationUrl
+    )
+    expect(authWildcard.isWildcard).toBeTruthy()
+})
+test('expiresAt', async () => {
+    fetchMock.post(exampleAuthorizationUrl, () => exampleAuthorization)
+
+    const auth = await Authorization.restore(
+        await mockExampleCa(),
+        exampleAuthorizationUrl,
+    )
+    // remove milliseconds part
+    // '2016-03-02T21:54:00.000Z' to '2016-03-02T21:54:00Z'
+    const dateISOStringWithoutMilliseconds = auth.expiresAt.toISOString().replace(/\.\d+Z/,'Z')
+    expect(dateISOStringWithoutMilliseconds).toBe(exampleAuthorization.expires)
+})
+
+test('identifierType/identifierValue', async () => {
+    fetchMock.post(exampleAuthorizationUrl, () => exampleAuthorization)
+    const auth = await Authorization.restore(
+        await mockExampleCa(),
+        exampleAuthorizationUrl,
+    )
+    expect(auth.identifierType).toBe(exampleAuthorization.identifier.type)
+    expect(auth.identifierValue).toBe(exampleAuthorization.identifier.value)
+
+})
+
 test("Malformed Response", async () => {
     const malformedAuthorization = Object.assign({}, exampleAuthorization, {
         status: "any",

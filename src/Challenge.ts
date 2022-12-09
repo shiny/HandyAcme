@@ -55,6 +55,10 @@ export class Challenge {
         return this.data.type === "tls-alpn-01"
     }
 
+    get type() {
+        return this.data.type
+    }
+
     get status() {
         return this.data.status
     }

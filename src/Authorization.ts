@@ -1,6 +1,8 @@
 import type { Ca } from "./Ca"
-import { isResponseChallenge, type ResponseChallenge } from "./Challenge"
-import { Challenge } from "./Challenge"
+import type {
+    ResponseChallenge
+} from "./Challenge"
+import { isResponseChallenge, Challenge } from "./Challenge"
 import {
     isResponseOrderIdentifier,
     type ResponseOrderIdentifier,
@@ -43,7 +45,7 @@ export function isResponseAuthorization(obj): obj is ResponseAuthorization {
 }
 
 export class Authorization {
-    public data
+    public data: ResponseAuthorization
 
     constructor(public ca, public url) {}
 
@@ -68,8 +70,24 @@ export class Authorization {
         return this.status === "revoked"
     }
 
+    get isWildcard(): boolean {
+        return !!this.data.wildcard
+    }
+
+    get expiresAt(): Date {
+        return new Date(this.data.expires)
+    }
+
     get status() {
         return this.data.status
+    }
+
+    get identifierType(): string {
+        return this.data.identifier.type
+    }
+
+    get identifierValue(): string {
+        return this.data.identifier.value
     }
 
     static async restore(ca: Ca, url: string) {
@@ -88,7 +106,7 @@ export class Authorization {
         }
     }
 
-    get challenges() {
+    get challenges(): Challenge[] {
         return this.data.challenges.map(
             (challenge) => new Challenge(this.ca, challenge),
         )

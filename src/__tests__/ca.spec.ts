@@ -40,6 +40,10 @@ test("Ca Environment", async () => {
         overwriteRoutes: true,
     })
     await expect(ca.setStaging()).resolves
+    expect(ca.env).toBe('staging')
+    await ca.setProduction()
+    expect(ca.env).toBe("production")
+
 })
 
 test("Ca Create Account", async () => {

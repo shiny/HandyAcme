@@ -54,6 +54,7 @@ test("Http Challenge", async () => {
     const challenge = await Challenge.restore(ca, exampleHttpChallenge.url)
 
     expect(challenge.url).toBe(exampleHttpChallenge.url)
+    expect(challenge.type).toBe("http-01")
     await expect(challenge.sign()).resolves.toBe(
         "Jyq2Kxs8rbwGOPAPMOiHMhj3X_Y9cjqYIDcuKss0tTk.6If_IXv-j3pGhV-EK6C05PAnLOGYWIr4WEZlcDPS3YE",
     )
@@ -66,16 +67,18 @@ test("Dns Challenge", async () => {
     const challenge = await Challenge.restore(ca, exampleDnsChallenge.url)
 
     expect(challenge.url).toBe(exampleDnsChallenge.url)
+    expect(challenge.type).toBe("dns-01")
     await expect(challenge.sign()).resolves.toBe(
         "yA2dGkqN2PydigD-_fajBS0OzZMTPCvCh61VytccuMw",
     )
 })
 
-test("Dns Challenge", async () => {
+test("TlsAlpn Challenge", async () => {
     fetchMock.post(exampleTlsAlpnChallenge.url, () => exampleTlsAlpnChallenge)
 
     const ca = await mockExampleCa()
     const challenge = await Challenge.restore(ca, exampleTlsAlpnChallenge.url)
+    expect(challenge.type).toBe("tls-alpn-01")
 
     expect(challenge.url).toBe(exampleTlsAlpnChallenge.url)
     await expect(challenge.sign()).rejects.toThrowError("not implemented")
