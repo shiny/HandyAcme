@@ -30,7 +30,7 @@
   "homepage": "https://github.com/shiny/HandyAcme#readme",
   "dependencies": {
     "@peculiar/webcrypto": "^1.4.0",
-    "@peculiar/x509": "^1.8.1",
+    "@peculiar/x509": "^1.9.2",
     "node-fetch": "^2.6.7"
   },
   "devDependencies": {

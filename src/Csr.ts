@@ -86,9 +86,12 @@ async function createCsr({ alg, domains, csrFormat }: CreateCsrParams) {
                 x509.KeyUsageFlags.digitalSignature |
                     x509.KeyUsageFlags.keyEncipherment,
             ),
-            new x509.SubjectAlternativeNameExtension({
-                dns: domains,
-            }),
+            new x509.SubjectAlternativeNameExtension(domains.map(domain => {
+                return {
+                    type: 'dns',
+                    value: domain
+                } as x509.JsonGeneralName
+            })),
         ],
         attributes: [],
     })
