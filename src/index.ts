@@ -28,6 +28,8 @@ export default class HandyAcme {
             return acme.setStaging()
         } else if (type === "production") {
             return acme.setProduction()
+        } else {
+            return acme
         }
     }
 }
