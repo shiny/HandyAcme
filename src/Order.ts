@@ -93,6 +93,10 @@ export class Order {
         return this.data.certificate
     }
 
+    get expiredAt() {
+        return new Date(this.data.expires)
+    }
+
     async create(domains: string[]) {
         this.domains = domains
         const payload = {

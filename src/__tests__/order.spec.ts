@@ -116,6 +116,14 @@ test("Order Status", async () => {
     expect(order.isPending).toBeFalsy()
 })
 
+test("Order ExpiredAt", async () => {
+    const ca = await mockExampleCa()
+    fetchMock.post(exampleOrderUrl, exampleOrderResponse)
+
+    const order = await Order.restore(ca, exampleOrderUrl)
+    expect(order.expiredAt).toEqual(new Date(exampleOrder.expires))
+})
+
 test("Order Restore", async () => {
     const ca = await mockExampleCa()
     fetchMock.post(exampleOrderUrl, exampleOrderResponse)
