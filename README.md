@@ -1,12 +1,12 @@
 # Handy Acme
 
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/shiny/handyacme/build.yml?style=plastic&branch=main)
-![npm](https://img.shields.io/npm/v/handyacme?style=plastic)
-![GitHub](https://img.shields.io/github/license/shiny/handyacme?style=plastic)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/shiny/handyacme/build.yml?style=plastic&branch=main)](https://github.com/shiny/HandyAcme/tags)
+[![npm](https://img.shields.io/npm/v/handyacme?style=plastic)](https://www.npmjs.com/package/handyacme)
+[![GitHub](https://img.shields.io/github/license/shiny/handyacme?style=plastic)](https://github.com/shiny/HandyAcme/blob/main/LICENSE.md)
 
 
-![HandyAcme](https://user-images.githubusercontent.com/117487/183263478-c64b4a31-b5e1-43c1-9e31-6ff03e20ce46.svg)
+[![HandyAcme](https://user-images.githubusercontent.com/117487/183263478-c64b4a31-b5e1-43c1-9e31-6ff03e20ce46.svg)](https://github.com/shiny/HandyAcme)
 
 [HandyACME API](https://shiny.github.io/HandyAcme/)
 
