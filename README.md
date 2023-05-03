@@ -1,7 +1,7 @@
 # Handy Acme
 
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/shiny/handyacme/Node.js%20CI?style=plastic)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/shiny/handyacme/build.yml?style=plastic&branch=main)
 ![npm](https://img.shields.io/npm/v/handyacme?style=plastic)
 ![GitHub](https://img.shields.io/github/license/shiny/handyacme?style=plastic)
 
