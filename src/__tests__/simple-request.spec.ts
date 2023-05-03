@@ -78,3 +78,18 @@ test("SimepleRequest.fetch", async () => {
     const res = await SimpleRequest.fetch("http://example.com")
     expect(res.status).toBe(201)
 })
+
+test("Fetch error", async () => {
+    const invalidBody = '{}'
+    const regexToMatch = /\{\}/
+    fetchMock.get("http://example.com", () => {
+        return {
+            status: 400,
+            body: invalidBody,
+        }
+    })
+    const request = new SimpleRequest()
+    await expect(request.fetch("http://example.com")).rejects.toThrowError(
+        regexToMatch
+    )
+})

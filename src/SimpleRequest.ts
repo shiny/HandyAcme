@@ -45,11 +45,18 @@ export class SimpleRequest {
         if ([200, 201].includes(res.status)) {
             return res
         } else {
+            const resCopy = await res.clone()
             const desc = await res.json()
             if (isErrorDescription(desc)) {
                 throw new ErrorResponse(desc)
             } else {
-                throw new Error(JSON.stringify(res))
+                // https://github.com/node-fetch/node-fetch/issues/85
+                const errorDescription = {
+                    status: res.status,
+                    statusText: res.statusText,
+                    text: await resCopy.text(),
+                }
+                throw new Error(JSON.stringify(errorDescription))
             }
         }
     }
