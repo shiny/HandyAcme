@@ -6,7 +6,7 @@
   <p><a href="https://shiny.github.io/HandyAcme/">HandyACME API Reference</a></p>
 
   
-  <a href="https://github.com/shiny/HandyAcme/tags"><img src="https://img.shields.io/github/actions/workflow/status/shiny/HandyAcme/build.yml?logo=githubactions" /></a>
+  <a href="https://github.com/shiny/HandyAcme/actions/workflows/build.yml"><img src="https://img.shields.io/github/actions/workflow/status/shiny/HandyAcme/build.yml?logo=githubactions" /></a>
   <a href="https://www.npmjs.com/package/handyacme"><img src="https://img.shields.io/npm/v/handyacme?logo=nodedotjs" /></a>
   <img src="https://img.shields.io/badge/Lang-typescript-blue?logo=typescript" />
   <img src="https://img.shields.io/npm/l/handyacme?logo=opensourceinitiative" />
