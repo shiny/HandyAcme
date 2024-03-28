@@ -1,14 +1,20 @@
-# Handy Acme
 
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/117487/183263478-c64b4a31-b5e1-43c1-9e31-6ff03e20ce46.svg" />
+  <h3>Handy Acme</h3>
+  <p>A TypeScript Client implements ACME (RFC 8555) </p>
+  <p><a href="https://shiny.github.io/HandyAcme/">HandyACME API Reference</a></p>
 
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/shiny/handyacme/build.yml?style=plastic&branch=main)](https://github.com/shiny/HandyAcme/tags)
-[![npm](https://img.shields.io/npm/v/handyacme?style=plastic)](https://www.npmjs.com/package/handyacme)
-[![GitHub](https://img.shields.io/github/license/shiny/handyacme?style=plastic)](https://github.com/shiny/HandyAcme/blob/main/LICENSE.md)
-
-
-[![HandyAcme](https://user-images.githubusercontent.com/117487/183263478-c64b4a31-b5e1-43c1-9e31-6ff03e20ce46.svg)](https://github.com/shiny/HandyAcme)
-
-[HandyACME API](https://shiny.github.io/HandyAcme/)
+  
+  <a href="https://github.com/shiny/HandyAcme/tags">
+    <img src="https://img.shields.io/github/actions/workflow/status/shiny/HandyAcme/build.yml?logo=githubactions" />
+  </a>
+  <a href="https://www.npmjs.com/package/handyacme">
+    <img src="https://img.shields.io/npm/v/handyacme?logo=nodedotjs" />
+  </a>
+  <img src="https://img.shields.io/badge/Lang-typescript-blue?logo=typescript" />
+  <img src="https://img.shields.io/npm/l/handyacme" />
+</div>
 
 ## Install
 ```bash
