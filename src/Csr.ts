@@ -1,6 +1,7 @@
 import * as x509 from "@peculiar/x509"
 import { Crypto } from "@peculiar/webcrypto"
 import { PemConverter } from "@peculiar/x509"
+import { isIP } from "net"
 
 type format = "pem" | "base64" | "base64url" | "hex"
 
@@ -84,11 +85,11 @@ async function createCsr({ alg, domains, csrFormat }: CreateCsrParams) {
         extensions: [
             new x509.KeyUsagesExtension(
                 x509.KeyUsageFlags.digitalSignature |
-                    x509.KeyUsageFlags.keyEncipherment,
+                x509.KeyUsageFlags.keyEncipherment,
             ),
             new x509.SubjectAlternativeNameExtension(domains.map(domain => {
                 return {
-                    type: 'dns',
+                    type: isIP(domain) ? "ip" : "dns",
                     value: domain
                 } as x509.JsonGeneralName
             })),

@@ -1,3 +1,4 @@
+import { isIP } from "node:net"
 import { Authorization } from "./Authorization"
 import type { Ca } from "./Ca"
 import { createEcdsaCsr, createRsaCsr, isPEM, convertFromPem } from "./Csr"
@@ -19,7 +20,7 @@ export interface ResponseOrder {
 }
 
 export function isResponseOrderIdentifier(obj): obj is ResponseOrderIdentifier {
-    return isString([obj.type, obj.value]) && obj.type === "dns"
+    return isString([obj.type, obj.value]) && (obj.type === "dns" || obj.type === "ip")
 }
 
 export function isResponseOrder(obj): obj is ResponseOrder {
@@ -47,7 +48,7 @@ export class Order {
     public data: ResponseOrder
     public domains: string[]
 
-    constructor(protected ca: Ca) {}
+    constructor(protected ca: Ca) { }
 
     static async create(ca: Ca, domains: string[]) {
         const order = new Order(ca)
@@ -99,13 +100,18 @@ export class Order {
 
     async create(domains: string[]) {
         this.domains = domains
+        const isIp = domains.some(isIP)
         const payload = {
+            profile: undefined,
             identifiers: domains.map((domain) => {
                 return {
-                    type: "dns",
+                    type: isIP(domain) ? "ip" : "dns",
                     value: domain,
                 }
             }),
+        }
+        if (isIp) {
+            payload.profile = "shortlived"
         }
         const res = await this.ca.post(this.ca.directory.newOrder, payload)
         const orderUrl = res.headers.get("location")
