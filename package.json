@@ -1,6 +1,6 @@
 {
   "name": "handyacme",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"**/*.ts\"",
-    "test": "jest"
+    "test": "jest",
+    "prepack": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,8 @@
   },
   "files": [
     "/dist",
-    "!**/__tests__/*"
+    "!**/__tests__/**",
+    "!**/__mocks__/**"
   ],
   "homepage": "https://github.com/shiny/HandyAcme#readme",
   "dependencies": {

@@ -102,5 +102,26 @@ if (authorization.isPending) {
 }
 ```
 
+### Additional challenge types
+
+A CA may offer additional challenge types alongside HTTP-01, DNS-01, and
+TLS-ALPN-01. HandyAcme ignores unsupported types when loading or refreshing an
+authorization, so a tokenless `dns-persist-01` challenge does not prevent using
+an available `dns-01` challenge. Supported methods still undergo response
+validation.
+
+This is response compatibility; DNS-PERSIST-01 validation is not implemented.
+Check the selected challenge before using it: `challengeDns`, `challengeHttp`,
+or `challengeTlsAlpn` is `undefined` if the CA does not offer that method.
+
+```typescript
+const authorization = await le.restoreAuthorization(authorizationUrl)
+const challenge = authorization.challengeDns
+if (!challenge) {
+    throw new Error("The CA does not offer DNS-01 for this authorization")
+}
+const txtValue = await challenge.sign()
+```
+
 ## License
 MIT

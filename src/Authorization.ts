@@ -1,8 +1,10 @@
 import type { Ca } from "./Ca"
-import type {
-    ResponseChallenge
+import type { ResponseChallenge } from "./Challenge"
+import {
+    isResponseChallenge,
+    isSupportedChallengeType,
+    Challenge,
 } from "./Challenge"
-import { isResponseChallenge, Challenge } from "./Challenge"
 import {
     isResponseOrderIdentifier,
     type ResponseOrderIdentifier,
@@ -98,7 +100,22 @@ export class Authorization {
 
     async verify() {
         const res = await this.ca.postAsGet(this.url)
-        const obj = await res.json()
+        let obj = await res.json()
+        // Additional methods can use different payloads, such as tokenless
+        // DNS-PERSIST-01. Ignore unknown types before validating our methods.
+        // Keep malformed entries so they still fail the response validator.
+        if (isObject(obj) && Array.isArray(obj.challenges)) {
+            obj = {
+                ...obj,
+                challenges: obj.challenges.filter(
+                    (challenge) =>
+                        !isObject(challenge) ||
+                        typeof challenge.type !== "string" ||
+                        challenge.type.trim().length === 0 ||
+                        isSupportedChallengeType(challenge.type),
+                ),
+            }
+        }
         if (isResponseAuthorization(obj)) {
             this.data = obj
         } else {

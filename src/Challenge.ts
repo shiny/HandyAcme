@@ -12,12 +12,18 @@ export interface ResponseChallenge {
     error?: any
 }
 
+export function isSupportedChallengeType(
+    type: unknown,
+): type is ResponseChallenge["type"] {
+    return isEnum(type, ["http-01", "dns-01", "tls-alpn-01"])
+}
+
 export function isResponseChallenge(obj): obj is ResponseChallenge {
     if (!isObject(obj)) {
         return false
     }
     return (
-        isEnum(obj.type, ["http-01", "dns-01", "tls-alpn-01"]) &&
+        isSupportedChallengeType(obj.type) &&
         isEnum(obj.status, ["pending", "processing", "valid", "invalid"]) &&
         isString(obj.url) &&
         isString(obj.token)
