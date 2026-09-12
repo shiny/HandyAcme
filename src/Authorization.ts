@@ -1,4 +1,9 @@
 import type { Ca } from "./Ca"
+import {
+    dnsPersistRecordName,
+    type DnsPersistOptions,
+    type DnsPersistRecord,
+} from "./DnsPersist"
 import type { ResponseChallenge } from "./Challenge"
 import {
     isResponseChallenge,
@@ -101,8 +106,7 @@ export class Authorization {
     async verify() {
         const res = await this.ca.postAsGet(this.url)
         let obj = await res.json()
-        // Additional methods can use different payloads, such as tokenless
-        // DNS-PERSIST-01. Ignore unknown types before validating our methods.
+        // Ignore future challenge types before validating supported methods.
         // Keep malformed entries so they still fail the response validator.
         if (isObject(obj) && Array.isArray(obj.challenges)) {
             obj = {
@@ -131,6 +135,26 @@ export class Authorization {
 
     get challengeDns() {
         return this.challenges.find((challenge) => challenge.isVerifyByDns01)
+    }
+
+    get challengeDnsPersist() {
+        return this.challenges.find(
+            (challenge) => challenge.isVerifyByDnsPersist01,
+        )
+    }
+
+    dnsPersistRecord(options: DnsPersistOptions = {}): DnsPersistRecord {
+        const challenge = this.challengeDnsPersist
+        if (this.identifierType !== "dns" || !challenge)
+            throw new Error("Authorization does not offer DNS-PERSIST-01")
+        return {
+            type: "TXT",
+            name: dnsPersistRecordName(this.identifierValue),
+            value: challenge.dnsPersistValue({
+                ...options,
+                wildcard: this.isWildcard || options.wildcard,
+            }),
+        }
     }
 
     get challengeHttp() {

@@ -44,7 +44,7 @@ test("order authorizations can sign and verify DNS-01 alongside DNS-PERSIST-01",
     expect(authorization.isPending).toBe(true)
     expect(isResponseAuthorization(authorization.data)).toBe(true)
     expect(authorization.challenges.map((challenge) => challenge.type)).toEqual(
-        ["http-01", "dns-01"],
+        ["dns-persist-01", "http-01", "dns-01"],
     )
     const thumbprint = await ca.account.exportJwkThumbprint()
     await expect(authorization.challengeDns.sign()).resolves.toBe(
@@ -88,7 +88,7 @@ test("restores and refreshes wildcard authorizations with future challenge types
 test("never exposes unsupported methods as actionable challenges", async () => {
     fetchMock.post(exampleAuthorizationUrl, {
         ...exampleAuthorization,
-        challenges: [persistentChallenge],
+        challenges: [{ ...persistentChallenge, type: "future-method-01" }],
     })
     const authorization = await Authorization.restore(
         await mockExampleCa(),
@@ -98,7 +98,12 @@ test("never exposes unsupported methods as actionable challenges", async () => {
     expect(authorization.challengeDns).toBeUndefined()
     expect(authorization.challengeHttp).toBeUndefined()
     expect(authorization.challengeTlsAlpn).toBeUndefined()
-    expect(isResponseChallenge(persistentChallenge)).toBe(false)
+    expect(
+        isResponseChallenge({
+            ...persistentChallenge,
+            type: "future-method-01",
+        }),
+    ).toBe(false)
 })
 
 test.each([

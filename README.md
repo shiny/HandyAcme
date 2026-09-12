@@ -102,26 +102,64 @@ if (authorization.isPending) {
 }
 ```
 
-### Additional challenge types
+### Persistent DNS validation (DNS-PERSIST-01)
 
-A CA may offer additional challenge types alongside HTTP-01, DNS-01, and
-TLS-ALPN-01. HandyAcme ignores unsupported types when loading or refreshing an
-authorization, so a tokenless `dns-persist-01` challenge does not prevent using
-an available `dns-01` challenge. Supported methods still undergo response
-validation.
-
-This is response compatibility; DNS-PERSIST-01 validation is not implemented.
-Check the selected challenge before using it: `challengeDns`, `challengeHttp`,
-or `challengeTlsAlpn` is `undefined` if the CA does not offer that method.
+For CAs that offer `dns-persist-01`, HandyAcme generates the persistent TXT
+record and submits validation without a challenge token. The record authorizes
+one ACME account with one CA; keep the same account when renewing.
 
 ```typescript
-const authorization = await le.restoreAuthorization(authorizationUrl)
-const challenge = authorization.challengeDns
-if (!challenge) {
-    throw new Error("The CA does not offer DNS-01 for this authorization")
+const order = await le.createOrder(["example.com", "*.example.com"])
+const authorizations = await order.authorizations()
+for (const authorization of authorizations) {
+    if (authorization.isValid) continue
+    const challenge = authorization.challengeDnsPersist
+    if (!challenge) throw new Error("The CA does not offer DNS-PERSIST-01")
+
+    // Use the wildcard policy for both authorizations so they share one record.
+    const record = authorization.dnsPersistRecord({ wildcard: true })
+    // record.type  = "TXT"
+    // record.name  = "_validation-persist.example.com"
+    // record.value = "letsencrypt.org; accounturi=<account URL>; policy=wildcard"
+    // Provision this record once and wait for public DNS before continuing.
+    // On renewal, check and reuse it. Do not delete it after issuance.
+    await challenge.verify()
 }
-const txtValue = await challenge.sign()
+// Poll the order, then generate the CSR, finalize and download as usual.
 ```
+
+`authorization.dnsPersistRecord()` automatically includes `policy=wildcard`
+when that authorization is for a wildcard. Passing `wildcard: true` also lets a
+base-domain authorization share the record with a wildcard in the same order.
+For a single exact hostname, omit that option to avoid granting broader scope.
+
+`issuerDomainName` can select another identity offered by the challenge.
+`persistUntil` is an optional UNIX timestamp in seconds; omitting it creates
+standing authorization. Removing the DNS record prevents future validation
+after caches expire, but does not revoke existing certificates or cached ACME
+authorizations. Persist and protect the account key separately.
+
+The CA's `accounturi` is used verbatim when present. Older deployed CAs that
+omit it use the imported or registered account URL. The selected issuer must be
+one of the challenge's advertised identities. Neither account URIs nor issuer
+values may inject extra record parameters.
+
+For lower-level integrations, `challenge.dnsPersistValue(options)` and
+`await challenge.sign(options)` return the TXT value. `challenge.token` throws
+for DNS-PERSIST-01 because this method has no token. `dnsPersistRecordName` and
+`dnsPersistRecordValue` are also exported for preparing records in advance.
+
+This implements [draft-ietf-acme-dns-persist-01](https://datatracker.ietf.org/doc/html/draft-ietf-acme-dns-persist-01).
+CA availability is determined by the challenges in each authorization; an
+unavailable method is not silently substituted with another method.
+
+### Additional challenge types
+
+HandyAcme supports HTTP-01, DNS-01, TLS-ALPN-01 response parsing, and
+DNS-PERSIST-01. Future unsupported challenge types are omitted when loading or
+refreshing authorizations; malformed supported challenges are rejected.
+`challengeDns`, `challengeDnsPersist`, `challengeHttp`, and `challengeTlsAlpn`
+are `undefined` when the CA does not offer the corresponding method.
 
 ## License
 MIT
